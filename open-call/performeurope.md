@@ -84,7 +84,7 @@ Blaz Beuermann
 blazbrmnn@yahoo.com
 
 ### Phone number of main contact:
-00386 1 5348 835
+00386 1 5348 835,
 00386 31 501 460
 
 ### URL of the lead partner's Perform Europe profile:
