@@ -37,7 +37,7 @@ function setupWebGL (evt) {
                                { return }
 
   let program = gl.createProgram();
-  let shaders = Object.fromArray(
+  let shaders = Object.fromEntries(
    [[   "vertex-shader", gl.VERTEX_SHADER   ],
     [ "fragment-shader", gl.FRAGMENT_SHADER ]]
            .map(shader =>
