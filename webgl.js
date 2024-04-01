@@ -1,7 +1,6 @@
-
 window.addEventListener("load", setupWebGL);
-const canvas = document.querySelector("canvas"),
-     program, gl;
+let canvas = document.querySelector("canvas"),
+    program, gl;
 
 function getRenderingContext (canvas) {
   if    (typeof canvas         !== "object"
