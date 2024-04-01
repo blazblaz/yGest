@@ -12,9 +12,8 @@ function getRenderingContext (canvas) {
       {  width: canvas.clientWidth,
         height: canvas.clientHeight });
 
-  const gl
-  = canvas.getContext("webgl") ||
-    canvas.getContext("experimental-webgl");
+  gl = canvas.getContext("webgl") ||
+       canvas.getContext("experimental-webgl");
 
   if (!gl)
   return console.error(
