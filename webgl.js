@@ -3,7 +3,7 @@ window.addEventListener("load", setupWebGL);
 const canvas = document.querySelector("canvas"),
      program, gl;
 
-function getRenderingContext (as) {
+function getRenderingContext (canvas) {
   if    (typeof canvas         !== "object"
   ||           !canvas.tagName === "canvas")
 /*//*/                              return;
