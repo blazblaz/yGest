@@ -1,9 +1,7 @@
 window.addEventListener("load", setupWebGL);
-let canvas = document.querySelector("canvas"),
-    program, gl;
-
 function getRenderingContext (canvas) {
-  if    (typeof canvas         !== "object"
+  if    (      !canvas
+  ||     typeof canvas         !== "object"
   ||           !canvas.tagName === "canvas")
 /*//*/                              return;
 
@@ -11,7 +9,7 @@ function getRenderingContext (canvas) {
       {  width: canvas.clientWidth,
         height: canvas.clientHeight });
 
-  gl = canvas.getContext("webgl") ||
+  gl = canvas.getContext("webgl")   ||
        canvas.getContext("experimental-webgl");
 
   if (!gl)
@@ -29,20 +27,60 @@ function getRenderingContext (canvas) {
   return gl;
 }
 
-function setupWebGL (evt) {
+function setupWebGL (canvas, v, f) {
+  let canvas = document.querySelector(canvas),
+  gl, program, vs, fs;
+
   window.removeEventListener(evt.type, setupWebGL, false);
   if (!(gl = getRenderingContext(canvas)))
                                { return }
 
-  let program = gl.createProgram();
-  let shaders = Object.fromEntries(
-   [[   "vertex-shader", gl.VERTEX_SHADER   ],
-    [ "fragment-shader", gl.FRAGMENT_SHADER ]]
-           .map(shader =>
-    [   compile.apply(program, shader)   ]));
+  if (v || f)
+      program = gl.createProgram();
 
+  if (v && document.getElementById(v))
+      v = document.getElementById( v ) {
+                  .firstChild.nodeValue;
+     vs = gl.createShader(
+          gl.VERTEX_SHADER);
+
+          gl.sharedSource( v );
+          gl.compileShader(vs);
+
+          gl.attachShader(program, vs);
+  }
+
+  if (f && document.getElementById(f)) {
+      f = document.getElementById( f )
+                  .firstChild.nodeValue;
+
+     fs = gl.createShader(
+          gl.FRAGMENT_SHADER);
+
+          gl.sharedSource( f );
+          gl.compileShader(fs);
+
+          gl.attachShader(program, fs);
+  }
+
+  if (vs || fs) {
   gl.linkProgram(program);
-  gl.useProgram(program);
+  
+  switch (true) {
+   case  ( vs && !gl.getShaderParameter(vs, 
+                  gl.COMPILE_STATUS)):
+            throw gl.getShaderInfoLog(vs);
+
+   case  ( fs && !gl.getShaderParameter(fs, 
+                  gl.COMPILE_STATUS)):
+            throw gl.getShaderInfoLog(fs);
+
+   case  (       !gl.getProgramParameter(program,
+                  gl.LINK_STATUS)):
+            throw gl.getProgramInfoLog(program);
+  }
+                  gl.useProgram(program);
+  }
 
   let attributeLocation
    =  0;
@@ -51,6 +89,7 @@ function setupWebGL (evt) {
   gl.enableVertexAttribArray(attributeLocation);
   gl.vertexAttribPointer(attributeLocation, 3, gl.FLOAT, false, 0, 0);
 
+  return gl;
 // gl.deleteProgram(program);
 }
 
